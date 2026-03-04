@@ -1,4 +1,14 @@
 import { useState, useEffect, useCallback } from 'react'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTheme } from 'next-themes'
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  }
+}
 
 const TOKEN_KEY = 'ppf_admin_token'
 
@@ -26,6 +36,9 @@ const TYPE_CFG = {
 }
 
 export default function AdminPortal() {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
   const [authed, setAuthed] = useState(false)
   const [checking, setChecking] = useState(true)
   const [token, setToken] = useState('')
@@ -123,7 +136,6 @@ export default function AdminPortal() {
       const data = await res.json()
       if (res.ok && data.success) {
         setSaveMsg('✓ Saved & published.')
-        // Sync form with what server confirmed
         setForm({
           text: data.data.text,
           active: data.data.active,
@@ -152,7 +164,7 @@ export default function AdminPortal() {
   // ── Loading spinner ──
   if (checking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0f1117]">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-[#0f1117]">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#2A4C23] border-t-transparent" />
       </div>
     )
@@ -161,8 +173,8 @@ export default function AdminPortal() {
   // ── Login screen ──
   if (!authed) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0f1117] px-4">
-        <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-[#0f1117]">
+        <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-8 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
           <div className="mb-8 text-center">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2A4C23] to-[#B92025]">
               <svg
@@ -179,38 +191,42 @@ export default function AdminPortal() {
                 />
               </svg>
             </div>
-            <h1 className="text-lg font-bold text-white">Admin Portal</h1>
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white">Admin Portal</h1>
             <p className="mt-1 text-xs text-gray-500">Pak-Palestine Forum</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-400">Username</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-600 dark:text-gray-400">
+                Username
+              </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoComplete="username"
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23]"
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-600"
                 placeholder="Enter username"
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-gray-400">Password</label>
+              <label className="mb-1.5 block text-xs font-medium text-gray-600 dark:text-gray-400">
+                Password
+              </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23]"
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-600"
                 placeholder="Enter password"
               />
             </div>
 
             {loginError && (
-              <p className="rounded-lg bg-red-900/30 px-3 py-2 text-xs text-red-400">
+              <p className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600 dark:bg-red-900/30 dark:text-red-400">
                 {loginError}
               </p>
             )}
@@ -232,7 +248,7 @@ export default function AdminPortal() {
   const activeCfg = TYPE_CFG[form.type] || TYPE_CFG.info
 
   return (
-    <div className="min-h-screen bg-[#0f1117] px-4 py-12 text-white">
+    <div className="min-h-screen bg-gray-50 px-4 py-12 text-gray-900 dark:bg-[#0f1117] dark:text-white">
       <div className="mx-auto max-w-xl">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
@@ -242,7 +258,7 @@ export default function AdminPortal() {
           </div>
           <button
             onClick={handleLogout}
-            className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-gray-400 hover:border-red-500/50 hover:text-red-400"
+            className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-500 hover:border-red-500/50 hover:text-red-500 dark:border-white/10 dark:text-gray-400 dark:hover:border-red-500/50 dark:hover:text-red-400"
           >
             Logout
           </button>
@@ -258,15 +274,15 @@ export default function AdminPortal() {
             onKeyDown={(e) => {
               if (e.key === 'Enter') e.preventDefault()
             }}
-            className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
+            className="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-none"
           >
             {/* Active toggle */}
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4">
+            <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
               <div>
                 <p className="text-sm font-semibold">Show on live site</p>
                 <p
                   className={`mt-0.5 text-xs font-medium ${
-                    form.active ? 'text-green-400' : 'text-gray-500'
+                    form.active ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'
                   }`}
                 >
                   {form.active ? '● ON — visitors will see this' : '○ OFF — hidden from visitors'}
@@ -277,7 +293,7 @@ export default function AdminPortal() {
                 onClick={() => setForm((f) => ({ ...f, active: !f.active }))}
                 aria-pressed={form.active}
                 className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${
-                  form.active ? 'bg-[#2A4C23]' : 'bg-gray-600'
+                  form.active ? 'bg-[#2A4C23]' : 'bg-gray-300 dark:bg-gray-600'
                 }`}
               >
                 <span
@@ -290,7 +306,9 @@ export default function AdminPortal() {
 
             {/* Type selector */}
             <div>
-              <label className="mb-2 block text-xs font-medium text-gray-400">Type</label>
+              <label className="mb-2 block text-xs font-medium text-gray-500 dark:text-gray-400">
+                Type
+              </label>
               <div className="flex gap-2">
                 {Object.entries(TYPE_CFG).map(([key, cfg]) => (
                   <button
@@ -303,7 +321,7 @@ export default function AdminPortal() {
                         ? { background: cfg.bg, borderColor: cfg.border, color: cfg.color }
                         : {
                             background: 'transparent',
-                            borderColor: 'rgba(255,255,255,0.1)',
+                            borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.15)',
                             color: '#6b7280',
                           }
                     }
@@ -316,7 +334,7 @@ export default function AdminPortal() {
 
             {/* Text input */}
             <div>
-              <label className="mb-2 block text-xs font-medium text-gray-400">
+              <label className="mb-2 block text-xs font-medium text-gray-500 dark:text-gray-400">
                 Announcement text
               </label>
               <textarea
@@ -324,14 +342,14 @@ export default function AdminPortal() {
                 onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))}
                 rows={4}
                 placeholder="e.g. Join us for our upcoming webinar on Saturday 1st March at 6PM PKT…"
-                className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23]"
+                className="w-full resize-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-600"
               />
             </div>
 
             {/* Preview */}
             {form.text && (
               <div>
-                <p className="mb-2 text-xs font-medium text-gray-400">
+                <p className="mb-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                   Preview (bottom-right toast)
                 </p>
                 <div
@@ -350,7 +368,7 @@ export default function AdminPortal() {
 
             {/* Publish key */}
             <div>
-              <label className="mb-2 block text-xs font-medium text-gray-400">
+              <label className="mb-2 block text-xs font-medium text-gray-500 dark:text-gray-400">
                 Publish key <span className="text-red-500">*</span>
               </label>
               <input
@@ -359,9 +377,9 @@ export default function AdminPortal() {
                 onChange={(e) => setPublishKey(e.target.value)}
                 required
                 placeholder="Enter your secret publish key to save"
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23]"
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-600"
               />
-              <p className="mt-1 text-[10px] text-gray-600">
+              <p className="mt-1 text-[10px] text-gray-400 dark:text-gray-600">
                 Required every time you publish. Set via ADMIN_PUBLISH_KEY in .env
               </p>
             </div>
@@ -378,7 +396,7 @@ export default function AdminPortal() {
               {saveMsg && (
                 <p
                   className={`text-xs ${
-                    saveMsg.startsWith('✓') ? 'text-green-400' : 'text-red-400'
+                    saveMsg.startsWith('✓') ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'
                   }`}
                 >
                   {saveMsg}
