@@ -282,7 +282,9 @@ export default function AdminPortal() {
                 <p className="text-sm font-semibold">Show on live site</p>
                 <p
                   className={`mt-0.5 text-xs font-medium ${
-                    form.active ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'
+                    form.active
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-gray-400 dark:text-gray-500'
                   }`}
                 >
                   {form.active ? '● ON — visitors will see this' : '○ OFF — hidden from visitors'}
@@ -396,7 +398,9 @@ export default function AdminPortal() {
               {saveMsg && (
                 <p
                   className={`text-xs ${
-                    saveMsg.startsWith('✓') ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'
+                    saveMsg.startsWith('✓')
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-500 dark:text-red-400'
                   }`}
                 >
                   {saveMsg}
