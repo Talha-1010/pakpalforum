@@ -25,11 +25,11 @@ const LayoutWrapper = ({ children }) => {
     <div className="bg-white dark:bg-black">
       <AnnouncementBar />
       <header
-        className={`fixed left-4 right-4 top-3 z-50 rounded-2xl transition-all duration-300
+        className={`fixed top-3 z-50 rounded-full transition-all duration-500
           sm:left-28 sm:right-28 xl:left-44 xl:right-44 ${
             scrolled
-              ? 'border border-[#2A4C23]/40 bg-white/95 shadow-lg shadow-black/10 backdrop-blur-xl dark:border-[#2A4C23]/60 dark:bg-black/95 dark:shadow-black/50'
-              : 'border border-[#2A4C23]/20 bg-white/80 backdrop-blur-md dark:border-white/10 dark:bg-black/60'
+              ? 'left-14 right-14 border border-[#2A4C23]/40 bg-white/95 shadow-lg shadow-black/10 backdrop-blur-xl dark:border-[#2A4C23]/60 dark:bg-black/95 dark:shadow-black/50'
+              : 'left-4 right-4 border border-[#2A4C23]/20 bg-white/80 backdrop-blur-md dark:border-white/10 dark:bg-black/60'
           }`}
       >
         <div className="mx-auto max-w-3xl px-5 sm:px-8 xl:max-w-5xl xl:px-8">
