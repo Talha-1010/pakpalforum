@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-light: #ffffff;
+  --bg-dark: #000000;
+  --accent-green: #2A4C23;
+  --accent-green-bright: #5DBB5D;
+}
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  /* color is set by parent className (text-gray-800 dark:text-white) */
+}
+
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to right, #2A4C23, #5DBB5D);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+@font-face {
+  font-family: 'Sign Painter';
+  src: url('/fonts/SignPainterHouseScript.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  @apply min-h-screen transition-colors duration-200;
+}
+
+html.light body {
+  background-color: var(--bg-light);
+}
+
+html.dark body {
+  background-color: var(--bg-dark);
+}

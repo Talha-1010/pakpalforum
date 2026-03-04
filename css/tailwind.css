@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+/* Custom cursor — red 3D inverted triangle (▽), universal, hotspot at tip */
+*,
+*::before,
+*::after {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpolygon points='15 27 3 3 27 3' fill='black' opacity='0.2'/%3E%3Cpolygon points='14 25 2 2 26 2' fill='red'/%3E%3Cpolygon points='2 2 26 2 14 11' fill='black' opacity='0.35'/%3E%3Cpolygon points='14 25 2 2 14 13' fill='white' opacity='0.1'/%3E%3Cpolygon points='14 25 26 2 14 13' fill='black' opacity='0.2'/%3E%3Cline x1='2' y1='2' x2='14' y2='25' stroke='white' stroke-width='0.7' stroke-linecap='round' opacity='0.25'/%3E%3C/svg%3E")
+      14 25,
+    auto !important;
+}

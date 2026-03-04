@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /blog/*
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pakpalforum.com/sitemap.xml
