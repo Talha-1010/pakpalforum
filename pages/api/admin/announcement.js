@@ -20,7 +20,12 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const data = (await redis.get('announcement')) || { active: false, text: '', type: 'info', updatedAt: '' }
+    const data = (await redis.get('announcement')) || {
+      active: false,
+      text: '',
+      type: 'info',
+      updatedAt: '',
+    }
     return res.status(200).json(data)
   }
 

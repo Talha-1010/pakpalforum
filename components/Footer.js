@@ -88,22 +88,13 @@ export default function Footer() {
 
         {/* Legal links */}
         <div className="mb-16 flex flex-wrap justify-center gap-x-6 gap-y-3">
-          <Link
-            href={'/privacy-policy'}
-            className="text-sm text-gray-600 hover:text-white"
-          >
+          <Link href={'/privacy-policy'} className="text-sm text-gray-600 hover:text-white">
             Privacy Policy
           </Link>
-          <Link
-            href={'/terms-and-conditions'}
-            className="text-sm text-gray-600 hover:text-white"
-          >
+          <Link href={'/terms-and-conditions'} className="text-sm text-gray-600 hover:text-white">
             Terms and Conditions
           </Link>
-          <Link
-            href={'/cookie-policy'}
-            className="text-sm text-gray-600 hover:text-white"
-          >
+          <Link href={'/cookie-policy'} className="text-sm text-gray-600 hover:text-white">
             Cookie Policy
           </Link>
         </div>

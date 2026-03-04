@@ -2,10 +2,7 @@ import crypto from 'crypto'
 
 function generateToken(username, password) {
   const secret = process.env.ADMIN_SECRET || 'fallback-secret-change-me'
-  return crypto
-    .createHmac('sha256', secret)
-    .update(`${username}:${password}`)
-    .digest('hex')
+  return crypto.createHmac('sha256', secret).update(`${username}:${password}`).digest('hex')
 }
 
 export default function handler(req, res) {

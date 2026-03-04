@@ -5,26 +5,41 @@ const TOKEN_KEY = 'ppf_admin_token'
 const INITIAL = { text: '', active: false, type: 'info' }
 
 const TYPE_CFG = {
-  info:    { bg: 'rgba(42,76,35,0.15)',  border: 'rgba(42,76,35,0.5)',   color: '#2A4C23',  label: 'Info' },
-  warning: { bg: 'rgba(217,119,6,0.12)', border: 'rgba(217,119,6,0.5)',  color: '#b45309',  label: 'Warning' },
-  urgent:  { bg: 'rgba(185,32,37,0.15)', border: 'rgba(185,32,37,0.5)',  color: '#B92025',  label: 'Urgent' },
+  info: {
+    bg: 'rgba(42,76,35,0.15)',
+    border: 'rgba(42,76,35,0.5)',
+    color: '#2A4C23',
+    label: 'Info',
+  },
+  warning: {
+    bg: 'rgba(217,119,6,0.12)',
+    border: 'rgba(217,119,6,0.5)',
+    color: '#b45309',
+    label: 'Warning',
+  },
+  urgent: {
+    bg: 'rgba(185,32,37,0.15)',
+    border: 'rgba(185,32,37,0.5)',
+    color: '#B92025',
+    label: 'Urgent',
+  },
 }
 
 export default function AdminPortal() {
-  const [authed, setAuthed]     = useState(false)
+  const [authed, setAuthed] = useState(false)
   const [checking, setChecking] = useState(true)
-  const [token, setToken]       = useState('')
+  const [token, setToken] = useState('')
 
   // Login form
-  const [username, setUsername]         = useState('')
-  const [password, setPassword]         = useState('')
-  const [loginError, setLoginError]     = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
 
   // CMS form — local editable copy
-  const [form, setForm]       = useState(INITIAL)
+  const [form, setForm] = useState(INITIAL)
   const [publishKey, setPublishKey] = useState('')
-  const [saving, setSaving]   = useState(false)
+  const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -37,9 +52,9 @@ export default function AdminPortal() {
       if (!res.ok) return false
       const data = await res.json()
       setForm({
-        text:   data.text   ?? '',
+        text: data.text ?? '',
         active: data.active ?? false,
-        type:   data.type   ?? 'info',
+        type: data.type ?? 'info',
       })
       return true
     } catch {
@@ -54,7 +69,10 @@ export default function AdminPortal() {
     const stored = localStorage.getItem(TOKEN_KEY)
     if (stored) {
       fetchAnnouncement(stored).then((ok) => {
-        if (ok) { setToken(stored); setAuthed(true) }
+        if (ok) {
+          setToken(stored)
+          setAuthed(true)
+        }
         setChecking(false)
       })
     } else {
@@ -67,7 +85,7 @@ export default function AdminPortal() {
     setLoginError('')
     setLoginLoading(true)
     try {
-      const res  = await fetch('/api/admin/login', {
+      const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -107,9 +125,9 @@ export default function AdminPortal() {
         setSaveMsg('✓ Saved & published.')
         // Sync form with what server confirmed
         setForm({
-          text:   data.data.text,
+          text: data.data.text,
           active: data.data.active,
-          type:   data.data.type,
+          type: data.data.type,
         })
       } else {
         setSaveMsg('Error: ' + (data.error || 'Save failed.'))
@@ -147,8 +165,18 @@ export default function AdminPortal() {
         <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
           <div className="mb-8 text-center">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#2A4C23] to-[#B92025]">
-              <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              <svg
+                className="h-6 w-6 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
               </svg>
             </div>
             <h1 className="text-lg font-bold text-white">Admin Portal</h1>
@@ -182,7 +210,9 @@ export default function AdminPortal() {
             </div>
 
             {loginError && (
-              <p className="rounded-lg bg-red-900/30 px-3 py-2 text-xs text-red-400">{loginError}</p>
+              <p className="rounded-lg bg-red-900/30 px-3 py-2 text-xs text-red-400">
+                {loginError}
+              </p>
             )}
 
             <button
@@ -204,7 +234,6 @@ export default function AdminPortal() {
   return (
     <div className="min-h-screen bg-[#0f1117] px-4 py-12 text-white">
       <div className="mx-auto max-w-xl">
-
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -226,15 +255,20 @@ export default function AdminPortal() {
         ) : (
           <form
             onSubmit={handleSave}
-            onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault() }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') e.preventDefault()
+            }}
             className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
           >
-
             {/* Active toggle */}
             <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4">
               <div>
                 <p className="text-sm font-semibold">Show on live site</p>
-                <p className={`mt-0.5 text-xs font-medium ${form.active ? 'text-green-400' : 'text-gray-500'}`}>
+                <p
+                  className={`mt-0.5 text-xs font-medium ${
+                    form.active ? 'text-green-400' : 'text-gray-500'
+                  }`}
+                >
                   {form.active ? '● ON — visitors will see this' : '○ OFF — hidden from visitors'}
                 </p>
               </div>
@@ -264,9 +298,14 @@ export default function AdminPortal() {
                     type="button"
                     onClick={() => setForm((f) => ({ ...f, type: key }))}
                     className="flex-1 rounded-lg border px-3 py-2 text-xs font-semibold transition-all"
-                    style={form.type === key
-                      ? { background: cfg.bg, borderColor: cfg.border, color: cfg.color }
-                      : { background: 'transparent', borderColor: 'rgba(255,255,255,0.1)', color: '#6b7280' }
+                    style={
+                      form.type === key
+                        ? { background: cfg.bg, borderColor: cfg.border, color: cfg.color }
+                        : {
+                            background: 'transparent',
+                            borderColor: 'rgba(255,255,255,0.1)',
+                            color: '#6b7280',
+                          }
                     }
                   >
                     {cfg.label}
@@ -277,7 +316,9 @@ export default function AdminPortal() {
 
             {/* Text input */}
             <div>
-              <label className="mb-2 block text-xs font-medium text-gray-400">Announcement text</label>
+              <label className="mb-2 block text-xs font-medium text-gray-400">
+                Announcement text
+              </label>
               <textarea
                 value={form.text}
                 onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))}
@@ -290,10 +331,17 @@ export default function AdminPortal() {
             {/* Preview */}
             {form.text && (
               <div>
-                <p className="mb-2 text-xs font-medium text-gray-400">Preview (bottom-right toast)</p>
+                <p className="mb-2 text-xs font-medium text-gray-400">
+                  Preview (bottom-right toast)
+                </p>
                 <div
                   className="rounded-xl border px-4 py-3 text-sm leading-snug"
-                  style={{ background: activeCfg.bg, borderColor: activeCfg.border, color: activeCfg.color, transition: 'none' }}
+                  style={{
+                    background: activeCfg.bg,
+                    borderColor: activeCfg.border,
+                    color: activeCfg.color,
+                    transition: 'none',
+                  }}
                 >
                   {form.text}
                 </div>
@@ -313,7 +361,9 @@ export default function AdminPortal() {
                 placeholder="Enter your secret publish key to save"
                 className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-[#2A4C23] focus:ring-1 focus:ring-[#2A4C23]"
               />
-              <p className="mt-1 text-[10px] text-gray-600">Required every time you publish. Set via ADMIN_PUBLISH_KEY in .env</p>
+              <p className="mt-1 text-[10px] text-gray-600">
+                Required every time you publish. Set via ADMIN_PUBLISH_KEY in .env
+              </p>
             </div>
 
             {/* Save */}
@@ -326,7 +376,11 @@ export default function AdminPortal() {
                 {saving ? 'Saving…' : 'Save & Publish'}
               </button>
               {saveMsg && (
-                <p className={`text-xs ${saveMsg.startsWith('✓') ? 'text-green-400' : 'text-red-400'}`}>
+                <p
+                  className={`text-xs ${
+                    saveMsg.startsWith('✓') ? 'text-green-400' : 'text-red-400'
+                  }`}
+                >
                   {saveMsg}
                 </p>
               )}

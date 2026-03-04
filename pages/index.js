@@ -707,8 +707,8 @@ export default function Home() {
         <div
           className={`absolute inset-0 ${
             isRTL
-              ? 'via-black/65 bg-gradient-to-l from-black/90 to-black/15'
-              : 'via-black/65 bg-gradient-to-r from-black/90 to-black/15'
+              ? 'via-black/65 to-black/15 bg-gradient-to-l from-black/90'
+              : 'via-black/65 to-black/15 bg-gradient-to-r from-black/90'
           }`}
         />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black to-transparent" />
@@ -743,7 +743,11 @@ export default function Home() {
                 {t(`rotating-word-${currentWordIndex}`)}
               </span>
             </h1>
-            <div className={`my-5 h-0.5 w-16 bg-gradient-to-r from-[#2A4C23] to-[#5DBB5D] ${isRTL ? 'ml-auto' : ''}`} />
+            <div
+              className={`my-5 h-0.5 w-16 bg-gradient-to-r from-[#2A4C23] to-[#5DBB5D] ${
+                isRTL ? 'ml-auto' : ''
+              }`}
+            />
             <p className="max-w-xl text-base leading-relaxed text-gray-200 lg:text-lg">
               {t('hero-tagline')}
             </p>
@@ -833,9 +837,7 @@ export default function Home() {
               >
                 {t('vision-h2')}
               </h2>
-              <p className="mt-5 text-lg leading-relaxed text-gray-300">
-                {t('vision-p')}
-              </p>
+              <p className="mt-5 text-lg leading-relaxed text-gray-300">{t('vision-p')}</p>
               <h3 className="mt-10 text-xl font-semibold text-white">
                 {t('vision-objectives-h3')}
               </h3>
@@ -890,8 +892,7 @@ export default function Home() {
             <div
               className="sticky top-0 h-screen overflow-hidden"
               style={{
-                background:
-                  'linear-gradient(135deg, #000 0%, #0a0808 40%, #080808 100%)',
+                background: 'linear-gradient(135deg, #000 0%, #0a0808 40%, #080808 100%)',
               }}
             >
               {/* Faint green glow — top left */}
@@ -904,9 +905,8 @@ export default function Home() {
               />
 
               <div className="relative z-10 flex h-full flex-col sm:flex-row">
-
                 {/* ── LEFT: static panel ── */}
-                <div className="flex shrink-0 flex-col justify-center border-b border-white/5 px-8 py-6 sm:w-[42%] sm:border-b-0 sm:border-r sm:px-12 sm:py-0 lg:px-20 lg:w-[40%]">
+                <div className="flex shrink-0 flex-col justify-center border-b border-white/5 px-8 py-6 sm:w-[42%] sm:border-b-0 sm:border-r sm:px-12 sm:py-0 lg:w-[40%] lg:px-20">
                   {/* Label */}
                   <div className="mb-5 flex items-center gap-3">
                     <div className="h-px w-8 bg-[#5DBB5D]" />
@@ -958,8 +958,7 @@ export default function Home() {
                   <p
                     className="mt-6 hidden text-[10px] font-semibold uppercase tracking-widest text-white/20 sm:block"
                     style={{
-                      opacity:
-                        activeItem === IMPACT_ITEMS.length - 1 ? 0 : 1,
+                      opacity: activeItem === IMPACT_ITEMS.length - 1 ? 0 : 1,
                       transition: 'opacity 0.4s',
                     }}
                   >
@@ -998,10 +997,7 @@ export default function Home() {
                         }}
                       >
                         {/* Icon */}
-                        <div
-                          className="mb-6"
-                          style={{ color: item.accentColor }}
-                        >
+                        <div className="mb-6" style={{ color: item.accentColor }}>
                           <ImpactIcon index={idx} />
                         </div>
 
@@ -1155,10 +1151,7 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ── */}
-      <section
-        aria-labelledby="faq-heading"
-        className="bg-white py-24 dark:bg-[#0a0a0a]"
-      >
+      <section aria-labelledby="faq-heading" className="bg-white py-24 dark:bg-[#0a0a0a]">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           {/* Section label */}
           <div className="mb-5 flex items-center justify-center gap-3">
@@ -1418,10 +1411,7 @@ export default function Home() {
       </section>
 
       {/* ── Join / Contact CTA ── */}
-      <section
-        aria-labelledby="join-heading"
-        className="bg-gray-50 dark:bg-black"
-      >
+      <section aria-labelledby="join-heading" className="bg-gray-50 dark:bg-black">
         {/* ── Heading + CTA ── */}
         <div className="mx-auto max-w-3xl px-6 pb-10 pt-20 text-center sm:px-10">
           {/* Section label */}
@@ -1495,9 +1485,7 @@ export default function Home() {
         </div>
 
         {/* ── Footer note ── */}
-        <p className="px-6 pb-16 pt-8 text-center text-sm text-gray-600">
-          {t('join-footer')}
-        </p>
+        <p className="px-6 pb-16 pt-8 text-center text-sm text-gray-600">{t('join-footer')}</p>
       </section>
     </>
   )
